@@ -42,7 +42,7 @@ jobs:
         with:
           projectBaseDir: .
           args: >
-            -Dsonar.projectKey=school-system
+            -Dsonar.projectKey=manas-56_school-system
             -Dsonar.organization=manas-56
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
