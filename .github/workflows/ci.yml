@@ -36,8 +36,14 @@ jobs:
       - name: Run backend tests
         run: cd backend && npm test -- --coverage
 
+      - name: Set up Java 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
       - name: SonarCloud Scanner
-        uses: SonarSource/sonarcloud-github-action@v1.5
+        uses: SonarSource/sonarcloud-github-action@v1.8
         with:
           args: >
             -Dsonar.projectKey=85ce4f2498dfe1ff2e2a20a219f294b2a86fc047
