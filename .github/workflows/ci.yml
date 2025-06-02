@@ -14,7 +14,7 @@ jobs:
       # Step 1: Checkout code
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Needed by SonarCloud for proper blame info
+          fetch-depth: 0
 
       # Step 2: Set up Java 17
       - name: Set up Java 17
@@ -59,20 +59,18 @@ jobs:
 
       # Step 9: Build Docker image for frontend
       - name: Build Docker image for frontend
-        run: |
-          docker build -t karirm/school-system-frontend:latest ./frontend
+        run: docker build -t karirm/school-system-frontend:latest ./frontend
 
       # Step 10: Build Docker image for backend
       - name: Build Docker image for backend
-        run: |
-          docker build -t karirm/school-system-backend:latest ./backend
+        run: docker build -t karirm/school-system-backend:latest ./backend
 
       # Step 11: Push Docker images to Docker Hub
       - name: Push Docker images to Docker Hub
         env:
-          DOCKER_USERNAME: ${{ secrets.karirm}}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          echo "${karirm}" | docker login -u "${karirm}" --password-stdin
+          echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
           docker push karirm/school-system-frontend:latest
           docker push karirm/school-system-backend:latest
