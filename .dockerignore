@@ -1,0 +1,7 @@
+node_modules
+npm-debug.log
+frontend/build
+backend/node_modules
+backend/npm-debug.log
+frontend/.env
+backend/.env
