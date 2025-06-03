@@ -56,29 +56,31 @@ const Complain = require('../models/complainSchema.js');
 // };
 
 const adminRegister = async (req, res) => {
-    try {
-        const admin = new Admin({
-            ...req.body
-        });
+  try {
+    const admin = new Admin({
+      ...req.body
+    });
 
-        const existingAdminByEmail = await Admin.findOne({ email: req.body.email });
-        const existingSchool = await Admin.findOne({ schoolName: req.body.schoolName });
+    const existingAdminByEmail = await Admin.findOne({ email: req.body.email });
+    const existingSchool = await Admin.findOne({ schoolName: req.body.schoolName });
 
-        if (existingAdminByEmail) {
-            res.send({ message: 'Email already exists' });
-        }
-        else if (existingSchool) {
-            res.send({ message: 'School name already exists' });
-        }
-        else {
-            let result = await admin.save();
-            result.password = undefined;
-            res.send(result);
-        }
-    } catch (err) {
-        res.status(500).json(err);
+    if (existingAdminByEmail) {
+      return res.status(400).json({ message: 'Email already exists' });
     }
+    if (existingSchool) {
+      return res.status(400).json({ message: 'School name already exists' });
+    }
+
+    let result = await admin.save();
+    result.password = undefined;
+
+    return res.status(201).json(result);
+  } catch (err) {
+    console.error("Error in adminRegister:", err);  // Log the error on server console
+    return res.status(500).json({ message: err.message || "Internal Server Error" });
+  }
 };
+
 
 const adminLogIn = async (req, res) => {
     if (req.body.email && req.body.password) {
